@@ -89,50 +89,173 @@ HTML_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Spam Detector</title>
     <style>
-        body {
-            font-family: sans-serif;
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+        :root {
+            --bg-0: #11081d;
+            --bg-1: #1a1030;
+            --bg-2: #31165e;
+            --card: rgba(28, 17, 48, 0.86);
+            --card-border: #55318a;
+            --text: #f2e8ff;
+            --muted: #cdbde8;
+            --input-bg: #1d1333;
+            --input-border: #66439c;
+            --accent-1: #8d5dff;
+            --accent-2: #c064ff;
+            --error: #ff7eaf;
+            --spam: #ff9ecf;
+            --ham: #7af2cb;
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 15%, #3a1f6b 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, #4e2385 0%, transparent 38%),
+                linear-gradient(155deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+        }
+
+        .app-card {
+            width: min(820px, 100%);
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 26px;
+            box-shadow: 0 24px 50px rgba(6, 3, 12, 0.55);
+            backdrop-filter: blur(3px);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        .subtitle {
+            margin: 8px 0 18px;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.45rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
         textarea {
             width: 100%;
-            min-height: 160px;
-            margin-bottom: 1rem;
-            padding: 0.75rem;
+            min-height: 170px;
+            margin-bottom: 0.9rem;
+            padding: 0.9rem;
+            border-radius: 12px;
+            border: 1px solid var(--input-border);
+            background: var(--input-bg);
+            color: var(--text);
             font-size: 1rem;
+            line-height: 1.5;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
+
+        textarea:focus {
+            border-color: var(--accent-2);
+            box-shadow: 0 0 0 3px rgba(192, 100, 255, 0.2);
+        }
+
         button {
-            padding: 0.7rem 1rem;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .result {
-            margin-top: 1rem;
-            font-size: 1.1rem;
+            border: none;
+            border-radius: 11px;
+            padding: 0.78rem 1.15rem;
+            font-size: 0.98rem;
             font-weight: 600;
+            color: #f9f5ff;
+            background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+            cursor: pointer;
+            transition: transform 0.12s ease, filter 0.18s ease;
         }
+
+        button:hover {
+            filter: brightness(1.08);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .result,
         .error {
             margin-top: 1rem;
-            color: #b00020;
+            padding: 0.72rem 0.85rem;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
+        }
+
+        .result {
+            border: 1px solid #7041b0;
+            background: rgba(95, 59, 146, 0.26);
+        }
+
+        .result.spam {
+            color: var(--spam);
+        }
+
+        .result.ham {
+            color: var(--ham);
+        }
+
+        .error {
+            color: var(--error);
+            border: 1px solid #95407b;
+            background: rgba(140, 45, 96, 0.25);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 14px;
+            }
+
+            .app-card {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            h1 {
+                font-size: 1.55rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Spam Detector</h1>
-    <form method="post">
-        <label for="texto">Enter text:</label><br>
-        <textarea id="texto" name="texto" placeholder="Write the email/message here...">{{ texto }}</textarea>
-        <br>
-        <button type="submit">Classify</button>
-    </form>
-    {% if result %}
-        <div class="result">Result: {{ result }}</div>
-    {% endif %}
-    {% if error %}
-        <div class="error">{{ error }}</div>
-    {% endif %}
+    <main class="app-card">
+        <h1>Spam Detector</h1>
+        <p class="subtitle">Simple spam check powered by your trained models.</p>
+
+        <form method="post">
+            <label for="texto">Message or email text</label>
+            <textarea id="texto" name="texto" placeholder="Write the email/message here...">{{ texto }}</textarea>
+            <button type="submit">Classify</button>
+        </form>
+
+        {% if result %}
+            <div class="result {{ 'spam' if result == 'Spam' else 'ham' }}">Result: {{ result }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </main>
 </body>
 </html>
 """
