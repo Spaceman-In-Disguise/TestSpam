@@ -165,6 +165,8 @@ HTML_TEMPLATE = """
             color: var(--text);
             font-size: 1rem;
             line-height: 1.5;
+            resize: none;
+            overflow-y: auto;
             outline: none;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
@@ -222,6 +224,16 @@ HTML_TEMPLATE = """
             background: rgba(140, 45, 96, 0.25);
         }
 
+        .footer {
+            margin-top: 1.2rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid rgba(160, 128, 212, 0.32);
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.45;
+            text-align: center;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 14px;
@@ -255,6 +267,8 @@ HTML_TEMPLATE = """
         {% if error %}
             <div class="error">{{ error }}</div>
         {% endif %}
+
+        <p class="footer">2026 Perdomo Diego &amp; Guzman Edwyn. All rights reserved. Created for Machine Learning at Universidad Central de Venezuela</p>
     </main>
 </body>
 </html>
