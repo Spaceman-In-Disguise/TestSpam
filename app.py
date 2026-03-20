@@ -241,7 +241,7 @@ HTML_TEMPLATE = """
 <body>
     <main class="app-card">
         <h1>Spam Detector</h1>
-        <p class="subtitle">Simple spam check powered by your trained models.</p>
+        <p class="subtitle">Simple spam check powered by word2Vec and scikit-learn k-nearest neighbors.</p>
 
         <form method="post">
             <label for="texto">Message or email text</label>
